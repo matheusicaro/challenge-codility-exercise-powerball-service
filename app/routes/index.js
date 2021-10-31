@@ -1,13 +1,13 @@
 const express = require('express')
-const { root } = require('../controllers/root')
-const { notFound } = require('../controllers/notfound')
+const NotFoundController = require('../controllers/notfound.controller')
+const HealthController = require('../controllers/health.controller')
 
 const router = express.Router()
 
-// Routes
-router.get('/', root)
+router.get('/health', HealthController.getHealth)
+
 
 // Fall Through Route
-router.use(notFound)
+router.use(NotFoundController.getNotFound)
 
 module.exports = router
