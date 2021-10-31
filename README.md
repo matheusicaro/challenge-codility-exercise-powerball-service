@@ -1,4 +1,4 @@
-# Interview Exercise
+# Exercise
 
 Your goal is to extend the functionality of this Node.js service.
 
