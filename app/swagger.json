@@ -1,0 +1,159 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Rest API for Codility challenge.",
+    "version": "1.0.0",
+    "title": "codility-exercise-powerball-service",
+    "termsOfService": "https://petstore.swagger.io/",
+    "contact": { "email": "contact@matheusicaro.com" },
+    "license": { "name": "Apache 2.0", "url": "http://www.apache.org/licenses/LICENSE-2.0.html" }
+  },
+  "host": "*",
+  "basePath": "/api/v1",
+  "tags": [],
+  "schemes": ["https", "http"],
+
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["helth"],
+        "summary": "check the Api status",
+        "description": "",
+        "operationId": "getHealth",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": { "status": "ONLINE", "schema": { "$ref": "#/definitions/HealthStatus" } }
+        }
+      }
+    },
+
+    "/powerball/check/result": {
+      "post": {
+        "tags": ["powerballCheckResult"],
+        "summary": "Respond with whether each pick has won",
+        "description": "Accept data for a lottery ticket, and respond with whether each pick has won, the prize won per-pick, and the total of all prizes won on the ticket",
+        "operationId": "checkPicks",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object required to check the picks and validate that each pick won",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LotteryTicket"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "successful operation", "schema": { "$ref": "#/definitions/ResultLotteryTicket" } },
+          "400": { "description": "invalid parameters", "schema": { "$ref": "#/definitions/ApiResponse" } },
+          "404": { "description": "not found data", "schema": { "$ref": "#/definitions/ApiResponse" } },
+          "500": { "description": "internal error", "schema": { "$ref": "#/definitions/ApiResponse" } }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+
+    "HealthStatus": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2021-10-31T00:00:00Z"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["ONLINE", "FAILED"]
+        }
+      }
+    },
+
+    "LotteryTicket": {
+      "type": "object",
+      "properties": {
+        "draw_date": {
+          "type": "string",
+          "example": "2021-10-31"
+        },
+        "picks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "05 23 28 43 56 19"
+          }
+        }
+      }
+    },
+
+    "ResultLotteryTicket": {
+      "type": "object",
+      "properties": {
+        "draw_date": {
+          "type": "string",
+          "example": "2021-10-31"
+        },
+        "total_won": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "number",
+              "format": "double",
+              "example": "1000.90"
+            },
+            "value_formatted": {
+              "type": "string",
+              "example": "$1,000,90"
+            }
+          }
+        },
+        "picks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pick": {
+                "type": "string",
+                "example": "05 23 28 43 56 19"
+              },
+              "result": {
+                "type": "object",
+                "properties": {
+                  "won": {
+                    "type": "boollean",
+                    "example": true
+                  },
+                  "value": {
+                    "type": "number",
+                    "format": "double",
+                    "example": "1000.90"
+                  },
+                  "value_formatted": {
+                    "type": "string",
+                    "example": "$1,000,90"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "message for error description or detailed API response"
+        }
+      }
+    }
+  },
+
+  "externalDocs": { "description": "Find out more about Swagger", "url": "http://swagger.io" }
+}

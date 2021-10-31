@@ -1,5 +1,4 @@
 const expressApp = require('./app/app')
-const port = process.env.PORT || 3000
 
 process.on('unhandledRejection', error => {
   console.error(error)
@@ -14,8 +13,10 @@ process.on('uncaughtException', error => {
 process.on('SIGINT', shutdown)
 process.on('SIGTERM', shutdown)
 
-const httpServer = expressApp.listen(port)
-console.log(`App listening on port ${port}`)
+const httpServer = expressApp.listen(expressApp.get('port'), () => {
+  console.log(`Server started on ${expressApp.get('host') || 'http://localhost:'}:${expressApp.get('port')}`)
+  console.log(`environment: ${expressApp.get('env')}`)
+})
 
 function shutdown() {
   httpServer.close()
