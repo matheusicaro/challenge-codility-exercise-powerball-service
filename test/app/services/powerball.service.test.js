@@ -1,6 +1,6 @@
 const Service = require('../../../app/services/powerball')
 const { ResultLotteryTicket, TotalWon, Ticket, TicketResult } = require('../../../app/services/powerball/model/result-lotery-ticket.model')
-const LoterryApiResponse = require('../../../app/integration/models/loterry-api-response.model')
+const { LoterryApiResponse } = require('../../../app/integration/models/loterry-api-response.model')
 
 jest.mock('../../../app/integration/lottery-api.integration')
 const LoterryApi = require('../../../app/integration/lottery-api.integration')
@@ -39,7 +39,7 @@ describe('powerball.service', () => {
     test('Should return valid for white balls greater than 1 and less than 70 and for the red balls greater than 1 and less than 26', () => {
       const inputs = ['01 20 03 45 05 10', '05 15 20 40 50 21', '05 15 20 40 69 26']
 
-      for (let input of inputs) expect(Service.isAnInvalidPick(input)).toBe(true)
+      for (let input of inputs) expect(Service.isAnInvalidPick(input)).toBe(false)
     })
   })
 
@@ -56,16 +56,16 @@ describe('powerball.service', () => {
       const totalWon = new TotalWon(POWERBALL_PRIZES.THIRD_PRIZE.VALUE_AS_NUMBER, POWERBALL_PRIZES.THIRD_PRIZE.VALUE_FORMATTED)
       const ticket = new Ticket(pick, new TicketResult(true, totalWon.getValue(), totalWon.getValueFormatted()))
 
-      const expected = new ResultLotteryTicket(drawDate, totalWon, [ticket])
+      const expected = new ResultLotteryTicket(drawDate, winningNumbers, totalWon, [ticket])
 
       LoterryApi.getLotteryResults = jest.fn().mockImplementation(() => {
-        return [
-          new LoterryApiResponse({
+        return new LoterryApiResponse([
+          {
             draw_date: `${drawDate}T00:00:00.000`,
             winning_numbers: winningNumbers,
             multiplier: '1',
-          }),
-        ]
+          },
+        ])
       })
 
       const returned = await Service.getResults(new Date(drawDate), [pick])
@@ -106,13 +106,13 @@ describe('powerball.service', () => {
       const drawDate = '2021-10-31'
 
       LoterryApi.getLotteryResults = jest.fn().mockImplementation(() => {
-        return [
-          new LoterryApiResponse({
+        return new LoterryApiResponse([
+          {
             draw_date: `${drawDate}T00:00:00.000`,
             winning_numbers: winningNumbers,
             multiplier: '1',
-          }),
-        ]
+          },
+        ])
       })
 
       const returned = await Service.getResults(new Date(drawDate), picks)
@@ -152,13 +152,13 @@ describe('powerball.service', () => {
       const picks = [pickAwardedWithThirdPrize, pickAwardedWithFifthPrize]
 
       LoterryApi.getLotteryResults = jest.fn().mockImplementation(() => {
-        return [
-          new LoterryApiResponse({
+        return new LoterryApiResponse([
+          {
             draw_date: `${drawDate}T00:00:00.000`,
             winning_numbers: winningNumbers,
             multiplier: factorMultiplierFromThePrize,
-          }),
-        ]
+          },
+        ])
       })
 
       const returned = await Service.getResults(new Date(drawDate), picks)
@@ -188,13 +188,13 @@ describe('powerball.service', () => {
       const drawDate = '2021-10-31'
 
       LoterryApi.getLotteryResults = jest.fn().mockImplementation(() => {
-        return [
-          new LoterryApiResponse({
+        return new LoterryApiResponse([
+          {
             draw_date: `${drawDate}T00:00:00.000`,
             winning_numbers: winningNumbers,
             multiplier: '1',
-          }),
-        ]
+          },
+        ])
       })
 
       const returned = await Service.getResults(new Date(drawDate), picks)
@@ -212,13 +212,13 @@ describe('powerball.service', () => {
       const drawDate = '2021-10-31'
 
       LoterryApi.getLotteryResults = jest.fn().mockImplementation(() => {
-        return [
-          new LoterryApiResponse({
+        return new LoterryApiResponse([
+          {
             draw_date: `${drawDate}T00:00:00.000`,
             winning_numbers: winningNumbers,
             multiplier: '1',
-          }),
-        ]
+          },
+        ])
       })
 
       const returned = await Service.getResults(new Date(drawDate), picksNotAwarded)
@@ -232,6 +232,29 @@ describe('powerball.service', () => {
         expect(ticket.getTicketResult().getWon()).toBe(false)
         expect(ticket.getTicketResult().getValue()).toEqual(0)
         expect(ticket.getTicketResult().getValueFormatted()).toEqual('$0')
+      }
+    })
+
+    test('should return expected if not found draw for the date informed', async () => {
+      const drawDateNotFound = '2021-10-01'
+      const pick = '01 25 30 45 50 25'
+
+      LoterryApi.getLotteryResults = jest.fn().mockImplementation(() => {
+        return new LoterryApiResponse([
+          {
+            draw_date: '2021-10-31T00:00:00.000',
+            winning_numbers: '01 20 30 40 50 25',
+            multiplier: '1',
+          },
+        ])
+      })
+
+      try {
+        const returned = await Service.getResults(new Date(drawDateNotFound), pick)
+        expect(returned).toBeUndefined()
+      } catch (error) {
+        expect(error).not.toBeUndefined()
+        expect(error.message).toBe('Was not found draw for the date informed: 2021-10-01')
       }
     })
   })

@@ -8,6 +8,7 @@ const PowerballService = require('../../../app/services/powerball')
 jest.mock('../../../app/config/logger')
 const Logger = require('../../../app/config/logger')
 const ApiResponse = require('../../../app/models/api-error-response.model')
+const HttpErrorException = require('../../../app/exceptions/http-error-exception')
 
 describe("Check method 'checkResult'", () => {
   beforeEach(() => {
@@ -21,6 +22,7 @@ describe("Check method 'checkResult'", () => {
     const ticket = new Ticket(pickNumber, new TicketResult(true, 4000.5, '$4,000,50'))
     const expectedBody = new ResultLotteryTicket(
       drawDate,
+      pickNumber,
       new TotalWon(ticket.getTicketResult().getValue(), ticket.getTicketResult().getValueFormatted()),
       [ticket]
     )
@@ -87,7 +89,7 @@ describe("Check method 'checkResult'", () => {
 
   test('Should return status code 400 and expected body if picks are in invalid formats', async () => {
     const expectedBody = new ApiResponse(
-      "Informed picks were not informed or are invalid. The value bet must be 6-digit and not duplicated entered for each pick such as: \"01 20 03 45 05 10\""
+      "Picks were not informed or are invalid. The value bet must be 6-digit and not duplicated entered for each pick such as: \"01 20 03 45 05 10\""
     )
 
     const invalidPicks = [ null, '', ' ', '01', '01 20', '01 20 50', '01 20 50 05', '01 20 50 05 10', 'any other string']
@@ -106,7 +108,28 @@ describe("Check method 'checkResult'", () => {
     expect(bodyCaptured).toEqual(expectedBody)
   })
 
-  test('Should return 500 and the expected body if an exception is thrown', async () => {
+  test('Should return status code 422 and the expected body if an exception is thrown', async () => {
+    const expectedBody = new ApiResponse('Failed to request data in an external service')
+
+    const body = { draw_date: '2021-10-31', picks: ['01 20 50 05 10 20'] }
+    const res = mockResponse()
+
+    PowerballService.getResults = jest.fn().mockImplementation(() => {
+      throw new HttpErrorException()
+    })
+
+    PowerballService.isAnInvalidPick = jest.fn().mockImplementation(() => false)
+
+    await controller.checkResult(mockRequest(body), res)
+
+    const bodyCaptured = res.json.mock.calls[0][0]
+
+    expect(res.status).toHaveBeenCalledTimes(1)
+    expect(res.status).toHaveBeenCalledWith(422)
+    expect(bodyCaptured.message).toEqual(expectedBody.message)
+  })
+
+  test('Should return status code 500 and the expected body if an exception is thrown', async () => {
     const expectedBody = new ApiResponse('An internal error occurred, please try again later')
 
     const body = { draw_date: '2021-10-31', picks: ['01 20 50 05 10 20'] }

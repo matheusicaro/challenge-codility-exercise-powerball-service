@@ -22,13 +22,10 @@ class PowerballService {
    */
   static async getResults(drawDate, picks) {
     const results = await LotteryApi.getLotteryResults()
-
+    const drawDateResult = results.getResultByDate(drawDate)
     const drawDateFormatted = DateUtil.formatDateWithoutTime(drawDate)
 
-    const isTheDrawDateRequested = (result) => DateUtil.formatDateWithoutTime(result.getDrawDate()) === drawDateFormatted
-    const drawDateResult = results.filter(isTheDrawDateRequested)[0]
-
-    if (!drawDateResult) throw ProcessingFailureException(MESSAGES.DRAW_DATE_NOT_FOUND, 422)
+    if (!drawDateResult) throw new ProcessingFailureException(`${MESSAGES.DRAW_DATE_NOT_FOUND} ${drawDateFormatted}`, 404)
 
     const winningNumbers = ServiceUtil.convertPickStringToNumberList(drawDateResult.getWinningNumbers())
     const ticketsValidated = []
@@ -37,14 +34,14 @@ class PowerballService {
 
     if (ticketsValidated.some(ticketAwardedAsGrandPrize)) {
       const totalWon = new TotalWon(POWERBALL_PRIZES.FIRST_PRIZE.VALUE_AS_NUMBER, POWERBALL_PRIZES.FIRST_PRIZE.VALUE_FORMATTED)
-      return new ResultLotteryTicket(drawDateFormatted, totalWon, ticketsValidated)
+      return new ResultLotteryTicket(drawDateFormatted, drawDateResult.getWinningNumbers(), totalWon, ticketsValidated)
     }
 
     let totalWonValue = 0
     for (let ticket of ticketsValidated) totalWonValue += ticket.getTicketResult().getValue()
 
     const totalWon = new TotalWon(totalWonValue, StringUtil.formatNumberToUSACurrency(totalWonValue))
-    return new ResultLotteryTicket(drawDateFormatted, totalWon, ticketsValidated)
+    return new ResultLotteryTicket(drawDateFormatted, drawDateResult.getWinningNumbers(), totalWon, ticketsValidated)
   }
 
   /**
@@ -54,17 +51,17 @@ class PowerballService {
    * @returns {boolean}
    */
   static isAnInvalidPick(pick) {
-    if (!pick || pick.length < TOTAL_LENGTH_OF_A_VALID_PICK_AS_STRING) return true
+    if (!pick || pick.length !== TOTAL_LENGTH_OF_A_VALID_PICK_AS_STRING) return true
 
-    const pickSplited = pick.split(' ')
-    const containsDuplicateElements = new Set([pickSplited]).size !== pickSplited.length
+    const pickSplited = pick.split(' ').map((e) => parseInt(e))
+    const containsDuplicateElements = [...new Set(pickSplited)].length !== pickSplited.length
 
     if (containsDuplicateElements) return true
 
     const redPowerball = parseInt(pickSplited[5])
-    let isInvalidWhitBall = pickSplited.some((ball) => ServiceUtil.invalidWhiteBall(parseInt(ball)))
+    let isInvalidWhiteBall = pickSplited.some(ServiceUtil.invalidWhiteBall)
 
-    return containsDuplicateElements || isInvalidWhitBall || ServiceUtil.invalidRedBall(redPowerball)
+    return containsDuplicateElements || isInvalidWhiteBall || ServiceUtil.invalidRedBall(redPowerball)
   }
 }
 

@@ -5,6 +5,7 @@ const DateUtil = require('../utils/date.util')
 
 const { MESSAGES } = require('../constants')
 const PowerballService = require('../services/powerball')
+const HttpErrorException = require('../exceptions/http-error-exception')
 
 module.exports = class PowerBallController {
   /**
@@ -25,6 +26,7 @@ module.exports = class PowerBallController {
 
       return res.status(200).json(result)
     } catch (error) {
+      if (error instanceof HttpErrorException) return res.status(422).json(new ApiErrorResponse(MESSAGES.EXTERNAL_ERROR))
       if (error instanceof ProcessingFailureException) return res.status(error.httpStatusCode).json(new ApiErrorResponse(error.message))
 
       Logger.error(error)

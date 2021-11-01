@@ -6,7 +6,7 @@ const PowerballController = require('../controllers/powerball.controller')
 const router = express.Router()
 
 router.get('/health', HealthController.getHealth)
-router.get('/powerball/check/result', PowerballController.checkResult)
+router.post('/powerball/check/result', PowerballController.checkResult)
 
 // Fall Through Route
 router.use(NotFoundController.getNotFound)

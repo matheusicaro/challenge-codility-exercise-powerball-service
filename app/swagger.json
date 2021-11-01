@@ -97,13 +97,17 @@
           "type": "string",
           "example": "2021-10-31"
         },
+        "winning_numbers": {
+          "type": "string",
+          "example": "05 23 28 43 56 19"
+        },
         "total_won": {
           "type": "object",
           "properties": {
             "value": {
               "type": "number",
               "format": "double",
-              "example": "1000.90"
+              "example": "100090"
             },
             "value_formatted": {
               "type": "string",
@@ -130,7 +134,7 @@
                   "value": {
                     "type": "number",
                     "format": "double",
-                    "example": "1000.90"
+                    "example": "100090"
                   },
                   "value_formatted": {
                     "type": "string",

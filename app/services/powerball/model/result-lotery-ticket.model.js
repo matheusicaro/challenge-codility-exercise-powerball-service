@@ -6,14 +6,15 @@
  * @param @type {Array.<Ticket>} tickets - Tickets validated
  */
 class ResultLotteryTicket {
-  constructor(drawDate, totalWon, tickets) {
-    this.drawDate = drawDate
-    this.totalWon = totalWon && new TotalWon(totalWon.value, totalWon.valueFormatted)
+  constructor(drawDate, winningNumbers, totalWon, tickets) {
+    this.draw_date = drawDate
+    this.winning_numbers = winningNumbers
+    this.total_won = totalWon && new TotalWon(totalWon.getValue(), totalWon.getValueFormatted())
     this.tickets = tickets
   }
 
   getTotalWon() {
-    return this.totalWon
+    return this.total_won
   }
 
   getTickets() {
@@ -30,7 +31,7 @@ class ResultLotteryTicket {
 class TotalWon {
   constructor(value, valueFormatted) {
     this.value = value
-    this.valueFormatted = valueFormatted
+    this.value_formatted = valueFormatted
   }
 
   getValue() {
@@ -38,11 +39,7 @@ class TotalWon {
   }
 
   getValueFormatted() {
-    return this.valueFormatted
-  }
-
-  setValueFormatted(valueFormatted) {
-    this.valueFormatted = valueFormatted
+    return this.value_formatted
   }
 }
 
@@ -55,7 +52,8 @@ class TotalWon {
 class Ticket {
   constructor(pick, ticketResult) {
     this.pick = pick
-    this.result = ticketResult && new TicketResult(ticketResult.won, ticketResult.value, ticketResult.valueFormatted)  }
+    this.result = ticketResult && new TicketResult(ticketResult.getWon(), ticketResult.getValue(), ticketResult.getValueFormatted())
+  }
 
   getPick() {
     return this.pick
@@ -77,7 +75,7 @@ class TicketResult {
   constructor(won, value, valueFormatted) {
     this.won = won
     this.value = value
-    this.valueFormatted = valueFormatted
+    this.value_formatted = valueFormatted
   }
 
   getWon() {
@@ -89,7 +87,7 @@ class TicketResult {
   }
 
   getValueFormatted() {
-    return this.valueFormatted
+    return this.value_formatted
   }
 }
 

@@ -1,0 +1,32 @@
+[
+  {
+    "draw_date": "2021-10-30T00:00:00.000",
+    "winning_numbers": "05 23 28 43 56 19",
+    "multiplier": "2"
+  },
+  {
+    "draw_date": "2021-10-27T00:00:00.000",
+    "winning_numbers": "03 06 26 35 51 17",
+    "multiplier": "4"
+  },
+  {
+    "draw_date": "2021-10-25T00:00:00.000",
+    "winning_numbers": "10 27 29 44 58 24",
+    "multiplier": "2"
+  },
+  {
+    "draw_date": "2021-10-23T00:00:00.000",
+    "winning_numbers": "10 30 51 57 63 20",
+    "multiplier": "2"
+  },
+  {
+    "draw_date": "2021-10-20T00:00:00.000",
+    "winning_numbers": "07 29 36 41 43 05",
+    "multiplier": "2"
+  },
+  {
+    "draw_date": "2021-10-18T00:00:00.000",
+    "winning_numbers": "30 32 48 53 63 12",
+    "multiplier": "2"
+  }
+]
