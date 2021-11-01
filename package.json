@@ -1,13 +1,13 @@
 {
-  "name": "interview",
+  "name": "codility-exercise-powerball-service",
   "version": "1.0.0",
-  "description": "A minimal template project for JavaScript interviews",
+  "description": "API Rest developed for Codility's Full Stack developer challenge",
   "author": "Kris Read",
   "license": "UNLICENSED",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/neofinancial/interview.git"
+    "url": "https://github.com/matheusicaro/codility-exercise-powerball-service"
   },
   "engines": {
     "node": "^14"
@@ -16,7 +16,7 @@
     "start": "node index.js",
     "start:dev": "nodemon",
     "lint": "eslint .",
-    "test": "jest",
+    "test": "jest --coverage",
     "test:dev": "jest --watchAll"
   },
   "jest": {

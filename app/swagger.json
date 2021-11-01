@@ -78,7 +78,7 @@
       "properties": {
         "draw_date": {
           "type": "string",
-          "example": "2021-10-31"
+          "example": "2021-10-30"
         },
         "picks": {
           "type": "array",
