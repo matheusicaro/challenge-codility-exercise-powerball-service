@@ -4,7 +4,7 @@ const ProcessingFailureException = require('../exceptions/processing-failure.exc
 const DateUtil = require('../utils/date.util')
 
 const { MESSAGES } = require('../constants')
-const PowerballService = require('../services/powerball.service')
+const PowerballService = require('../services/powerball')
 
 module.exports = class PowerBallController {
   /**
@@ -45,8 +45,7 @@ const _getDrawDate = (body) => {
     return DateUtil.buildDateFrom(body['draw_date'])
   } catch (error) {
     const expectedDateFormat = DateUtil.formatDateWithoutTime(new Date())
-    const message = `The date was not informed or is in invalid format. Date must be entered as year-month-day like: ${expectedDateFormat}`
-    throw new ProcessingFailureException(message, 400)
+    throw new ProcessingFailureException(`${MESSAGES.INVALID_INPUT_DRAW_DATE} ${expectedDateFormat}`, 400)
   }
 }
 
@@ -62,18 +61,15 @@ const _getPicks = (body) => {
     const picks = body['picks']
     let isThereAnyInvalidBet = false
 
-    const picksAsNumber = picks.map((p) => {
-      const newPick = p.split(' ').map((p) => Number.parseInt(p))
-      isThereAnyInvalidBet = PowerballService.isAnInvalidBet(newPick)
-      return newPick
+    const picksAsNumber = picks.map((pick) => {
+      isThereAnyInvalidBet = PowerballService.isAnInvalidPick(pick)
+      return pick
     })
 
     if (isThereAnyInvalidBet) throw new Error('Invalid bet')
 
     return picksAsNumber
   } catch (error) {
-    const message =
-      'Informed picks was not informed or is invalid. The value bet must be 6-digit entered for each pick such as: "01 20 03 45 05 10"'
-    throw new ProcessingFailureException(message, 400)
+    throw new ProcessingFailureException(MESSAGES.INVALID_INPUT_PICKS, 400)
   }
 }

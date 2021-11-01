@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 const { mockRequest, mockResponse } = require('./util')
 const controller = require('../../../app/controllers/notfound.controller')
 const ApiResponse = require('../../../app/models/api-error-response.model')

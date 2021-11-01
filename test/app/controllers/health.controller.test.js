@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 const { mockRequest, mockResponse } = require('./util')
 const controller = require('../../../app/controllers/health.controller')
 const Health = require('../../../app/models/health.model')

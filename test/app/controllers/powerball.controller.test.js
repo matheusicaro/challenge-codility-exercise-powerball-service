@@ -1,11 +1,9 @@
-// @ts-nocheck
-
 const { mockRequest, mockResponse } = require('./util')
 const controller = require('../../../app/controllers/powerball.controller')
-const { ResultLotteryTicket, TotalWon, Ticket, TicketResult } = require('../../../app/models/result-lotery-ticket.model')
+const { ResultLotteryTicket, TotalWon, Ticket, TicketResult } = require('../../../app/services/powerball/model/result-lotery-ticket.model')
 
-jest.mock('../../../app/services/powerball.service')
-const PowerballService = require('../../../app/services/powerball.service')
+jest.mock('../../../app/services/powerball')
+const PowerballService = require('../../../app/services/powerball')
 
 jest.mock('../../../app/config/logger')
 const Logger = require('../../../app/config/logger')
@@ -31,7 +29,7 @@ describe("Check method 'checkResult'", () => {
     const res = mockResponse()
 
     PowerballService.getResults = jest.fn().mockImplementation(() => expectedBody)
-    PowerballService.isAnInvalidBet = jest.fn().mockImplementation(() => false)
+    PowerballService.isAnInvalidPick = jest.fn().mockImplementation(() => false)
 
     await controller.checkResult(mockRequest(body), res)
 
@@ -89,12 +87,12 @@ describe("Check method 'checkResult'", () => {
 
   test('Should return status code 400 and expected body if picks are in invalid formats', async () => {
     const expectedBody = new ApiResponse(
-      "Informed picks was not informed or is invalid. The value bet must be 6-digit entered for each pick such as: \"01 20 03 45 05 10\""
+      "Informed picks were not informed or are invalid. The value bet must be 6-digit and not duplicated entered for each pick such as: \"01 20 03 45 05 10\""
     )
 
     const invalidPicks = [ null, '', ' ', '01', '01 20', '01 20 50', '01 20 50 05', '01 20 50 05 10', 'any other string']
 
-    PowerballService.isAnInvalidBet = jest.fn().mockImplementation(() => true)
+    PowerballService.isAnInvalidPick = jest.fn().mockImplementation(() => true)
 
     const body = { draw_date: '2021-10-31', picks: invalidPicks }
     const res = mockResponse()
@@ -118,7 +116,7 @@ describe("Check method 'checkResult'", () => {
       throw new Error('Generic Error')
     })
 
-    PowerballService.isAnInvalidBet = jest.fn().mockImplementation(() => false)
+    PowerballService.isAnInvalidPick = jest.fn().mockImplementation(() => false)
 
     await controller.checkResult(mockRequest(body), res)
 
@@ -139,7 +137,7 @@ describe("Check method 'checkResult'", () => {
       throw expectedErrorLogged
     })
 
-    PowerballService.isAnInvalidBet = jest.fn().mockImplementation(() => false)
+    PowerballService.isAnInvalidPick = jest.fn().mockImplementation(() => false)
 
     await controller.checkResult(mockRequest(body), res)
 

@@ -33,7 +33,7 @@ describe('date.util.js', () => {
       const validInput = '2021-10-31'
       const returned = DateUtil.buildDateFrom(validInput)
 
-      expect(returned.toJSON()).toBe(new Date(2021, 10, 31).toJSON())
+      expect(returned).toEqual(new Date(validInput))
     })
 
     test('should return expected exception for input invalid', () => {

@@ -30,7 +30,7 @@ const buildDateFrom = (dateAsString) => {
   const month = Number.parseInt(dateSplited[1])
   const day = Number.parseInt(dateSplited[2])
 
-  if (year && isValidMonth(month) && isValidDay(day)) return new Date(year, month === 12 ? 11 : month, day)
+  if (year && isValidMonth(month) && isValidDay(day)) return new Date(dateAsString)
 
   throw new Error(`date informed "${dateAsString}" is not in valid format (year-month-day).`)
 }

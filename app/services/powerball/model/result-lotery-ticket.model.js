@@ -8,7 +8,7 @@
 class ResultLotteryTicket {
   constructor(drawDate, totalWon, tickets) {
     this.drawDate = drawDate
-    this.totalWon = totalWon
+    this.totalWon = totalWon && new TotalWon(totalWon.value, totalWon.valueFormatted)
     this.tickets = tickets
   }
 
@@ -16,16 +16,8 @@ class ResultLotteryTicket {
     return this.totalWon
   }
 
-  setTotalWon(totalWon) {
-    this.totalWon = totalWon
-  }
-
   getTickets() {
     return this.tickets
-  }
-
-  setTickets(tickets) {
-    this.tickets = tickets
   }
 }
 
@@ -43,10 +35,6 @@ class TotalWon {
 
   getValue() {
     return this.value
-  }
-
-  setValue(value) {
-    this.value = value
   }
 
   getValueFormatted() {
@@ -67,23 +55,14 @@ class TotalWon {
 class Ticket {
   constructor(pick, ticketResult) {
     this.pick = pick
-    this.result = ticketResult && new TicketResult(ticketResult.won, ticketResult.value, ticketResult.valueFormatted)
-  }
+    this.result = ticketResult && new TicketResult(ticketResult.won, ticketResult.value, ticketResult.valueFormatted)  }
 
   getPick() {
     return this.pick
   }
 
-  setPick(pick) {
-    this.pick = pick
-  }
-
   getTicketResult() {
     return this.result
-  }
-
-  setTicketResult(ticketResult) {
-    this.result = ticketResult && new TicketResult(ticketResult.won, ticketResult.value, ticketResult.valueFormatted)
   }
 }
 
@@ -105,24 +84,12 @@ class TicketResult {
     return this.won
   }
 
-  setWon(won) {
-    this.won = won
-  }
-
   getValue() {
     return this.value
   }
 
-  setValue(value) {
-    this.value = value
-  }
-
   getValueFormatted() {
     return this.valueFormatted
-  }
-
-  setValueFormatted(valueFormatted) {
-    this.valueFormatted = valueFormatted
   }
 }
 
