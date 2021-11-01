@@ -2,7 +2,7 @@
 
 const { mockRequest, mockResponse } = require('./util')
 const controller = require('../../../app/controllers/notfound.controller')
-const ApiResponse = require('../../../app/models/api-response.model')
+const ApiResponse = require('../../../app/models/api-error-response.model')
 
 jest.mock('../../../app/config/logger')
 const Logger = require('../../../app/config/logger')

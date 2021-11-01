@@ -7,4 +7,5 @@ test('Router Setup', () => {
     .map(layer => layer.route.path)
 
   expect(routes.includes('/health')).toBe(true)
+  expect(routes.includes('/powerball/check/result')).toBe(true)
 })

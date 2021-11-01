@@ -1,4 +1,4 @@
-describe('environment.ts', () => {
+describe('environment.js', () => {
   beforeAll(() => {
     process.env.NODE_ENV = 'production'
     process.env.HOST_NAME = 'localhost'

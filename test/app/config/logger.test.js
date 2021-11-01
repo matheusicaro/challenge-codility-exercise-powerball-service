@@ -32,7 +32,7 @@ const fs = require('fs')
 const winston = require('winston')
 const Logger = require('../../../app/config/logger')
 
-describe('logger.ts', () => {
+describe('logger.js', () => {
   test('Should return corret format for timestamp when format.timestam is called', async () => {
     const expectedTimestampFormat = {
       format: 'YYYY-MM-DD HH:mm:ss'

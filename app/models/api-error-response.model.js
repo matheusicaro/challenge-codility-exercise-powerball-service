@@ -1,4 +1,4 @@
-module.exports = class ApiResponse {
+module.exports = class ApiErrorResponse {
   constructor(message) {
     this.message = message
   }
