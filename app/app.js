@@ -29,6 +29,8 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.use(morgan('common'))
 
+
+app.get('/', (req, res) => res.redirect('/api-docs'))
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 app.use(env.BASE_PATH, routes)
 

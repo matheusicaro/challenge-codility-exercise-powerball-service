@@ -1,10 +1,10 @@
 {
   "name": "codility-exercise-powerball-service",
   "version": "1.0.0",
-  "description": "API Rest developed for Codility's Full Stack developer challenge",
-  "author": "Kris Read",
-  "license": "UNLICENSED",
-  "private": true,
+  "description": "API Rest developed for Codility's Back-end developer challenge",
+  "author": "Matheus Icaro",
+  "license": "MIT",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/matheusicaro/codility-exercise-powerball-service"
