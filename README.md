@@ -187,7 +187,7 @@ Clone down this repository. You will need `node` and `npm` installed globally on
 
 ## To Do List:  
 
-Due to the availability of time to implement the solution for the proposed challenge, some tasks that are not mandatory for the challenge, but essential to deliver a solution, are pending below:
+Due to the availability of time to implement the solution for the proposed challenge that was 12 hours, some tasks that are not mandatory for the challenge, but essential to deliver the solution, are pending below as a suggestion for better futures:
 
 1. *Cache*: it is recommended to use cache for searches in the external lottery results api. Once the first search is performed, the results could be cached in a database such as *Redis* or even in the *application's memory*. Thus, for queries that are in the cache, it will result in the application's response time gain. For cases where the date is more recent than what is in the cache, you should look for the result in the external api.
 
