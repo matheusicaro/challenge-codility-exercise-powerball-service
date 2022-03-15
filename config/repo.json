@@ -1,0 +1,32 @@
+{
+  "profile": {
+    "pt": {
+      "kind": "Open Source",
+      "name": "API de serviço de loteria Powerball dos EUA",
+      "intro": "O serviço é capaz de gerar bilhetes, premiados ou não, para a tradicional loteria americana Powerball. O serviço responde se cada escolha ganhou, o prêmio ganho por escolha e o total de todos os prêmios ganhos no bilhete."
+    },
+    "fr": {
+      "kind": "Open Source",
+      "name": "API du service de loterie USA Powerball",
+      "intro": "Le service est capable de générer des tickets, attribués ou non, pour la loterie américaine traditionnelle, Powerball. Le service répond en indiquant si chaque choix a été gagné, le prix gagné par choix et le total de tous les prix gagnés sur le billet."
+    },
+    "en": {
+      "kind": "Open Source",
+      "name": "USA Powerball Lottery Service API",
+      "intro": "The service is capable of generating tickets, awarded or not, for the traditional USA lottery, Powerball. The service responds with whether each pick has won, the prize won per pick, and the total of all prizes won on the ticket." 
+    },
+    "es": {
+      "kind": "Open Source",
+      "name": "API del servicio de lotería Powerball de USA",
+      "intro": "El servicio es capaz de generar boletos, premiados o no, para la lotería tradicional de USA, Powerball. El servicio responde si cada selección ha ganado, el premio ganado por selección y el total de todos los premios ganados en el boleto."
+    }
+  },
+  "stack": {
+    "backend": [
+      {
+        "name": "Node.js",
+        "tags": ["JavaScript", "Swagger-ui", "Express", "Axios", "Jest", "Husky", "eslint"]
+      }
+    ]
+  }
+}

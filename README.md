@@ -5,19 +5,19 @@
 
 ## Summary:
 
-1. [Intro](#intro)
-2. [Challenge](#challenge)
-3. [Business Rules and Possible Results](#business-rules-and-possible-results) 
-4. [Project Screen Shot](#project-screen-shot)
-5. [Installation and Setup Instructions](#installation-and-setup-instructions))
-6. [Folder Structure](#folder-structure)
-7. [Project Specifications](#project-specifications)
-8. [To Do List](#to-do-list)
+- [Intro](#intro)
+- [Challenge](#challenge)
+- **[Project Screen Shot](#project-screen-shot)**
+- [Business Rules and Possible Results](#business-rules-and-possible-results) 
+- [Installation and Setup Instructions](#installation-and-setup-instructions)
+- [Folder Structure](#folder-structure)
+- [Project Specifications](#project-specifications)
+- [To Do List](#to-do-list)
 
 
 ## Intro:
 
-API Rest developed for Codility's Full Stack developer challenge. <br>
+API Rest developed for Codility Full Stack developer challenge. <br>
 
 The goal is to develop an api capable of generating tickets, awarded or not, for the traditional USA lottery, [Powerball](https://www.powerball.com/games/home).
 
@@ -77,7 +77,7 @@ As the maximum value was not established in the challenge rules table, the follo
 3. **The values of each ticket awarded will not be calculated in total value when there is at least one value awarded as GRAND PRIZE**.
 
 ###### GRAND PRIZE STANDARD VALUE:
-```
+```json
 {
   "total_won": {
     "value": 0,
@@ -91,7 +91,7 @@ As the maximum value was not established in the challenge rules table, the follo
 #### POSSIBLE RESULTS
         
 INPUT: 
-```
+```json
 {
   "draw_date": "2021-10-30",                 // Date of desired draw for picks analysis
   "picks": [
@@ -103,7 +103,7 @@ INPUT:
 ```
 
 OUTPUT: 
-```
+```json
 {
   "draw_date": "2021-10-30",                 // Date of desired draw entered as input
   "winning_numbers": "05 23 28 43 56 19",    // Draw numbers for the date entered in "draw_date"
@@ -180,10 +180,10 @@ Clone down this repository. You will need `node` and `npm` installed globally on
 
 ## Project Specifications
 
-- Used [Node.js](https://nodejs.org/en/) with [express](https://expressjs.com/)
-- Used [Jest](https://jestjs.io/) for unit testing
-- Used [Winston](https://typicode.github.io/husky/#/) for the storage of the logs.
-- Used [Axios](https://axios-http.com/) for promises based HTTP client
+- Used **[Node.js](https://nodejs.org/en/)** with **[express](https://expressjs.com/)**.
+- Used **[Jest](https://jestjs.io/)** for unit testing.
+- Used **[Winston](https://typicode.github.io/husky/#/)** for the storage of the logs.
+- Used **[Axios](https://axios-http.com/)** for promises based HTTP client.
 
 ## To Do List:  
 
