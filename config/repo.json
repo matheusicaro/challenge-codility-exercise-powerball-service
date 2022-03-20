@@ -21,6 +21,7 @@
       "intro": "El servicio es capaz de generar boletos, premiados o no, para la lotería tradicional de USA, Powerball. El servicio responde si cada selección ha ganado, el premio ganado por selección y el total de todos los premios ganados en el boleto."
     }
   },
+  "tags": ["Node.js", "JavaScript", "Express", "Back-end"],
   "stack": {
     "backend": [
       {
